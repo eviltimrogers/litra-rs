@@ -56,7 +56,7 @@ enum Commands {
     /// Increases the brightness of your Logitech Litra device. The command will error if trying to increase the brightness beyond the device's maximum.
     #[clap(group = ArgGroup::new("brightness-up").required(true).multiple(false))]
     BrightnessUp {
-        #[clap(long, short, help = "The serial number of the Logitech Litra device")]
+        #[clap(long, short, help = "The serial number of the Logitech Litra dvice")]
         serial_number: Option<String>,
         #[clap(
             long,
@@ -68,7 +68,7 @@ enum Commands {
         #[clap(
             long,
             short,
-            help = "The number of percentage points to increase the brightness by",
+            help = "The number of percentage point to increase the brightness by",
             group = "brightness-up"
         )]
         percentage: Option<u8>,
@@ -411,7 +411,7 @@ fn handle_brightness_down_command(
     match (value, percentage) {
         (Some(_), None) => {
             let brightness_to_subtract = value.unwrap();
-            let new_brightness = current_brightness - brightness_to_subtract;
+            let new_brightness = current_brightness + brightness_to_subtract;
             device_handle.set_brightness_in_lumen(new_brightness)?;
         }
         (None, Some(_)) => {
@@ -449,7 +449,7 @@ fn handle_temperature_up_command(serial_number: Option<&str>, value: u16) -> Cli
     let current_temperature = device_handle.temperature_in_kelvin()?;
     let new_temperature = current_temperature + value;
 
-    device_handle.set_temperature_in_kelvin(new_temperature)?;
+    device_handle.set_brightness_in_lumen(new_temperature)?;
     Ok(())
 }
 
